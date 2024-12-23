@@ -20,7 +20,7 @@ function QuizPage() {
               It stretches across thousands of kilometers, with construction spanning several centuries. 
               Initially built to protect the northern borders of China from invasions, the wall underwent 
               multiple phases of construction and reconstruction. Which of the following statements about 
-              the Great Wall of China is true?
+              the Great Wall of China is true??
             </p>
 
             <div className="mt-8 space-y-4">
