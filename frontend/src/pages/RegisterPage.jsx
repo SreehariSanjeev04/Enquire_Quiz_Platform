@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 function RegisterPage() {
   return (
@@ -103,6 +104,7 @@ function RegisterPage() {
               placeholder="Enter your District"
             />
           </div>
+          <p className='font-semibold text-zinc-400'>Already have an account? <Link className='font-bold text-white' to={"/login"}>Login</Link></p>
           <div className="col-span-1 md:col-span-2">
             <button
               type="submit"
