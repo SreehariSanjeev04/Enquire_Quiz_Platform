@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import UserCard from "../components/UserCard";
 import CorrectionPage from "../components/Correction";
+import { useNavigate } from 'react-router-dom';
 
 const mockUsers = [
   { id: 1, name: "John Doe", responses: [{ qNo: "1", answer: "A library", isCorrect: null }] },
@@ -14,7 +15,7 @@ function AdminPage() {
   const handleUserClick = (user) => {
     setSelectedUser(user);
   };
-
+  
   return (
     <div className="min-h-screen w-full bg-gradient-to-br from-gray-900 via-black to-gray-800 text-white">
       <div className="absolute left-4 top-4 flex gap-4 items-center">
@@ -24,6 +25,11 @@ function AdminPage() {
         <button className="bg-gradient-to-r from-green-700 to-green-500 hover:from-green-600 hover:to-green-400 text-white font-bold rounded-lg py-2 px-6 shadow-md transition-all duration-300">
           Save Changes
         </button>
+        {/* Should make it responsive*/}
+        <button onClick={() => navigate("/leaderboard")} className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-puple-600 hover:to-pink-600 text-white font-bold rounded-lg py-2 px-6 shadow-md transition-all duration-300">
+          Leaderboard
+        </button>
+        
       </div>
 
       <header className="text-center py-20 md:py-8">
