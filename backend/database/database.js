@@ -11,16 +11,17 @@ mongoose.connect(uri)
 const userSchema = new mongoose.Schema({
     name : {type: String,required: true},
     email : {type: String},
+    password : {type: String},
     school : {type: String},
     district : String,
     phone : Number,
-    class : String,
+    classes : String,
     role : {type:String,default:"User"}
 },{
     versionKey : false
 })
 
 
-const User = mongoose.model('Userfile',userSchema);
+const users = mongoose.model('User',userSchema);
 
-module.exports = {mongoose,User}; // Export the connection object
+module.exports = {mongoose,users}; 
