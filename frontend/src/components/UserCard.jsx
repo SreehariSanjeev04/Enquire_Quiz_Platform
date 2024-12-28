@@ -11,7 +11,7 @@ function UserCard() {
             <p className="text-sm font-semibold">Phone: 2342432423</p>
         </div>
 
-        <FaTrash className="h-5 w-5 text-white" />
+
 
     </div>
   )

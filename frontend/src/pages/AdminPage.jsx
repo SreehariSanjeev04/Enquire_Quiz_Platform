@@ -1,8 +1,9 @@
 import React from 'react';
 import UserCard from '../components/UserCard';
-
+import { useNavigate } from 'react-router-dom';
 
 function AdminPage() {
+  const navigate = useNavigate();
   return (
     <div className="min-h-screen w-full bg-gradient-to-br from-gray-900 via-black to-gray-800 text-white">
 
@@ -13,6 +14,11 @@ function AdminPage() {
         <button className="bg-gradient-to-r from-green-700 to-green-500 hover:from-green-600 hover:to-green-400 text-white font-bold rounded-lg py-2 px-6 shadow-md transition-all duration-300">
           Save Changes
         </button>
+        {/* Should make it responsive*/}
+        <button onClick={() => navigate("/leaderboard")} className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-puple-600 hover:to-pink-600 text-white font-bold rounded-lg py-2 px-6 shadow-md transition-all duration-300">
+          Leaderboard
+        </button>
+        
       </div>
 
 

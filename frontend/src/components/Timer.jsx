@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react'
 
 function Timer({ initalSeconds }) {
-  const savedSeconds = parseInt(JSON.parse(localStorage.getItem('EnquireQuizSeconds')));
+  const savedSeconds = parseInt(JSON.parse(localStorage.getItem('EnquireQuizSeconds'))) || 0;
   const [seconds, setSeconds] = useState(savedSeconds ?? initalSeconds);
   const [isTimeLow, setIsTimeLow] = useState(false);
 
