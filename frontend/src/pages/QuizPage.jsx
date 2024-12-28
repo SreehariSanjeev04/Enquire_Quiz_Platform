@@ -2,6 +2,8 @@ import React, { useEffect, useState } from 'react';
 import Timer from '../components/Timer';
 import { useContext } from 'react';
 import { AuthContext } from '../service/AuthContext';
+import { toast } from 'sonner'
+import { useNavigate } from 'react-router-dom';
 
 function QuizPage() {
   const storedAnswers = JSON.parse(localStorage.getItem('EnquireStoredAnswers')) || [];
@@ -9,6 +11,7 @@ function QuizPage() {
   const [questionIndex, setQuestionIndex] = useState(0);
   const [answers, setAnswers] = useState(storedAnswers);
   const { user, loading } = useContext(AuthContext);
+  const navigate = useNavigate();
 
   useEffect(() => {
     const fetchQuestions = () => {
@@ -23,6 +26,32 @@ function QuizPage() {
     };
     fetchQuestions();
   }, [user]);
+
+  const handleSubmitQuiz = async () => {
+    console.log(user.id);
+    console.log('Answers: ' + answers);
+    const response = await fetch('http://localhost:3000/quiz/create-response', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        Accept: 'application/json',
+      },
+      body: JSON.stringify({
+        userId: user.id,
+        response: answers,
+      }),
+    });
+
+    const result = await response.json();
+    if (response.ok) {
+      toast.success("Response saved successfully");
+      navigate('/already-attempted', {
+        replace: true
+      });
+    } else {
+      toast.error(result.message);
+    }
+  }
 
   const handleAnswerChange = (e, questionIndex) => {
     const newValue = e.target.value;
@@ -112,7 +141,7 @@ function QuizPage() {
             </div>
             {
               questionIndex === questions.length - 1 ? <button
-              onClick={handleNextQuestion}
+              onClick={handleSubmitQuiz}
               className="bg-gradient-to-r w-28 from-green-700 to-green-500 hover:from-green-600 hover:to-green-400 text-white font-bold rounded-lg py-2 px-6 shadow-md transition-all duration-300"
             >
               Submit

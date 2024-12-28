@@ -9,12 +9,12 @@ const LeaderBoardComponent = ({rank, score, name, phone, email, userClass, schoo
     }
   return (
     <>
-        <div className='w-full h-20 py-4 px-8 bg-transparent flex justify-between items-center' onClick={handlePopUp}>
+        <div className='cursor-pointer w-full h-16 py-4 px-8 bg-transparent flex justify-between items-center' onClick={handlePopUp}>
             {rank === 1 ? <img src="/firstRank.png" alt="" className='w-16 h-16' /> : <p className='text-3xl px-6 font-semibold'>{rank}</p>}
             <div>
-                <p className='text-2xl'>{name}</p>
+                <p className='text-xl'>{name}</p>
             </div>
-            <div className='font-semibold text-3xl'>{score}</div>
+            <div className='font-semibold text-2xl'>{score}</div>
             
         </div>
         <hr className='border-[1px] border-slate-500 w-[95%] mx-auto'/>

@@ -2,6 +2,8 @@ import React, { useState } from "react";
 import UserCard from "../components/UserCard";
 import CorrectionPage from "../components/Correction";
 import { useNavigate } from 'react-router-dom';
+import { toast } from 'sonner'
+import { useEffect } from "react";
 
 const mockUsers = [
   { id: 1, name: "John Doe", responses: [{ qNo: "1", answer: "A library", isCorrect: null }] },
@@ -11,11 +13,37 @@ const mockUsers = [
 
 function AdminPage() {
   const navigate = useNavigate();
+  const [data, setData] = useState([]);
   const [selectedUser, setSelectedUser] = useState(null);
 
   const handleUserClick = (user) => {
     setSelectedUser(user);
   };
+
+  useEffect(() => {
+    const fetchData = async () => {
+
+      const response = await fetch("http://localhost:3000/quiz/get-responses", {
+        method: "GET",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+      });
+      const result = await response.json();
+      if(response.ok) {
+        setData(result);
+        console.log(result);
+        toast.success("Data fetched successfully");
+      } else {
+        toast.error("Failed to fetch data");
+      }
+    }
+
+    fetchData();
+  }, [])
+
+
 
   return (
     <div className="min-h-screen w-full bg-gradient-to-br from-gray-900 via-black to-gray-800 text-white">
@@ -26,7 +54,7 @@ function AdminPage() {
         <button className="bg-blue-900 hover:bg-blue-800 text-white font-bold rounded-lg py-2 px-6 shadow-md transition-all duration-300">
           Save Changes
         </button>
-        {/* Responsive Button */}
+       
         <button onClick={() => navigate("/leaderboard")} className="bg-purple-700 hover:bg-purple-600 text-white font-bold rounded-lg py-2 px-6 shadow-md transition-all duration-300">
           Leaderboard
         </button>
@@ -40,9 +68,9 @@ function AdminPage() {
         {/* User List */}
         <div className="col-span-1 h-96 md:h-auto bg-gray-800 rounded-lg shadow-lg p-6 overflow-auto">
           <h2 className="mb-6 text-2xl font-semibold">Latest Submissions</h2>
-          {mockUsers.map((user) => (
+          {data.map((user) => (
             <div key={user.id} onClick={() => handleUserClick(user)}>
-              <UserCard name={user.name} />
+              <UserCard name={user.user.name} email={user.user.email} />
             </div>
           ))}
         </div>
