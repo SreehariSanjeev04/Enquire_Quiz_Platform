@@ -82,26 +82,39 @@ function QuizPage() {
               >
                 Previous
               </button>
-              <button
+              {
+                questionIndex !== questions.length - 1 ? <button
                 onClick={handleNextQuestion}
                 className="bg-gradient-to-r w-28 from-indigo-500 to-cyan-500 text-white font-bold rounded-lg py-2 px-6 shadow-md transition-all duration-300"
               >
                 Next
-              </button>
+              </button> : null
+              }
+              
             </div>
           </div>
 
-          <div className="col-span-1 bg-gray-800 rounded-lg shadow-lg p-6 border border-gray-700">
-            <h4 className="text-white text-lg font-semibold mb-4">Progress</h4>
-            <div
-                  style={{ width: `${progressWidth}%` }}
-                  className={`h-8 mb-4 rounded-lg shadow-lg bg-green-500 transition-all duration-300`}
-                ></div>
-            <ul className="text-gray-300 space-y-2">
-              <li>Question {questionIndex + 1} of {questions.length}</li>
-              <li>Answered: {Object.keys(answers).length}</li>
-              <li>Remaining: {questions.length - Object.keys(answers).length}</li>
-            </ul>
+          <div className="col-span-1 bg-gray-800 flex flex-col justify-between rounded-lg shadow-lg p-6 border border-gray-700">
+            <div>
+              <h4 className="text-white text-lg font-semibold mb-4">Progress</h4>
+              <div
+                    style={{ width: `${progressWidth}%` }}
+                    className={`h-8 mb-4 rounded-lg shadow-lg bg-green-500 transition-all duration-300`}
+                  ></div>
+              <ul className="text-gray-300 space-y-2">
+                <li>Question {questionIndex + 1} of {questions.length}</li>
+                <li>Answered: {Object.keys(answers).length}</li>
+                <li>Remaining: {questions.length - Object.keys(answers).length}</li>
+              </ul>
+            </div>
+            {
+              questionIndex === questions.length - 1 ? <button
+              onClick={handleNextQuestion}
+              className="bg-gradient-to-r w-28 from-green-700 to-green-500 hover:from-green-600 hover:to-green-400 text-white font-bold rounded-lg py-2 px-6 shadow-md transition-all duration-300"
+            >
+              Submit
+            </button> : null
+            }
           </div>
         </div>
       </div>

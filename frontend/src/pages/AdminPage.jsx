@@ -10,6 +10,7 @@ const mockUsers = [
 ];
 
 function AdminPage() {
+  const navigate = useNavigate();
   const [selectedUser, setSelectedUser] = useState(null);
 
   const handleUserClick = (user) => {

@@ -42,7 +42,7 @@ const CorrectionPage = ({ selectedUser }) => {
   const totalMarks = responses.filter((q) => q.isCorrect).length;
 
   return (
-    <div className="col-span-1 md:col-span-2 bg-gray-800 rounded-lg shadow-lg p-6">
+    <div className="col-span-1 overflow-auto md:col-span-2 bg-gray-800 rounded-lg shadow-lg p-6">
 
         {/* marks panel */}
       <div className="flex justify-between items-center mb-6">
@@ -61,7 +61,7 @@ const CorrectionPage = ({ selectedUser }) => {
       </div>
 
         {/* correction panel */}
-      <div className="w-full h-screen overflow-y-auto">
+      <div className="w-full h-[90%] overflow-y-auto">
         {selectedUser ? (
           <ul className="space-y-4">
             {responses.map((q, index) => (

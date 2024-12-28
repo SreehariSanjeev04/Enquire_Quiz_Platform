@@ -19,7 +19,9 @@ const userSchema = new mongoose.Schema({
     role : {type:String,default:"User"}
 },{
     versionKey : false
-})
+});
+
+
 
 
 const users = mongoose.model('User',userSchema);
