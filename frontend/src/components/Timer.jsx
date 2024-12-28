@@ -1,13 +1,17 @@
 import React, { useEffect, useState } from 'react'
+import { useNavigate } from 'react-router-dom';
 
 function Timer({ initalSeconds }) {
+  const navigate = useNavigate();
   const savedSeconds = parseInt(JSON.parse(localStorage.getItem('EnquireQuizSeconds'))) || 0;
-  const [seconds, setSeconds] = useState(savedSeconds ?? initalSeconds);
+  const [seconds, setSeconds] = useState(savedSeconds === 0 ? initalSeconds : savedSeconds);
   const [isTimeLow, setIsTimeLow] = useState(false);
 
   useEffect(() => {
     if(seconds <= 0) {
         localStorage.removeItem('EnquireQuizSeconds');
+        localStorage.removeItem('enquireUserToken');
+        navigate('/already-attempted', { replace: true });
         return;
     }
 

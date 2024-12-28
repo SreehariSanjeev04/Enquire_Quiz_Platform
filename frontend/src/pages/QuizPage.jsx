@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from 'react';
 import Timer from '../components/Timer';
+import { useContext } from 'react';
+import { AuthContext } from '../service/AuthContext';
 
 function QuizPage() {
   const storedAnswers = JSON.parse(localStorage.getItem('EnquireStoredAnswers')) || [];
   const [questions, setQuestions] = useState([]);
   const [questionIndex, setQuestionIndex] = useState(0);
   const [answers, setAnswers] = useState(storedAnswers);
+  const { user, loading } = useContext(AuthContext);
 
   useEffect(() => {
     const fetchQuestions = () => {
@@ -19,7 +22,7 @@ function QuizPage() {
         .then((response) => setQuestions(response.questions.sort(() => Math.random() - 0.5)));
     };
     fetchQuestions();
-  }, []);
+  }, [user]);
 
   const handleAnswerChange = (e, questionIndex) => {
     const newValue = e.target.value;
@@ -50,7 +53,7 @@ function QuizPage() {
   return (
     <div className="min-h-screen w-full bg-gradient-to-br from-gray-900 via-black to-gray-800">
       <div className="text-center text-white font-bold bg-gray-800 rounded-lg py-2 px-6 shadow lg inline-block absolute left-4 top-4">
-        UserName
+        {user.name ?? "User"}
       </div>
       <header className="text-center py-16 md:py-8">
         <h2 className="text-white text-3xl font-bold">Quiz Platform</h2>

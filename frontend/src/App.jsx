@@ -5,16 +5,21 @@ import QuizPage from './pages/QuizPage'
 import AdminPage from './pages/AdminPage'
 import LoginPage from './pages/LoginPage'
 import LeaderBoard from './pages/LeaderBoard'
+import { Toaster } from 'sonner'
+import { ProtectedRoutes } from './service/ProtectedRoutes'
+import AlreadyAttemptedPage from './pages/AlreadyAttemptedPage'
 function App() {
 
   return (
     <Router>
+      <Toaster position="top-right" richColors/>
       <Routes>
         <Route path="/" element={<RegisterPage />} />
-        <Route path="/quiz" element={<QuizPage />} />
-        <Route path="/admin" element={<AdminPage />} />
+        <Route path="/quiz" element={<ProtectedRoutes allowedUsers={['User']}><QuizPage /></ProtectedRoutes>} />
+        <Route path="/admin" element={<ProtectedRoutes allowedUsers={["Admin", "User"]}><AdminPage /></ProtectedRoutes>} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/leaderboard" element={<LeaderBoard />} />
+        <Route path="/already-attempted" element={<AlreadyAttemptedPage />} />
       </Routes>
     </Router>
   )

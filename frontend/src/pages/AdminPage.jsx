@@ -16,21 +16,20 @@ function AdminPage() {
   const handleUserClick = (user) => {
     setSelectedUser(user);
   };
-  
+
   return (
     <div className="min-h-screen w-full bg-gradient-to-br from-gray-900 via-black to-gray-800 text-white">
       <div className="absolute left-4 top-4 flex gap-4 items-center">
         <div className="text-center font-bold bg-gray-800 rounded-lg py-2 px-6 shadow-lg">
           Admin Name
         </div>
-        <button className="bg-gradient-to-r from-green-700 to-green-500 hover:from-green-600 hover:to-green-400 text-white font-bold rounded-lg py-2 px-6 shadow-md transition-all duration-300">
+        <button className="bg-blue-900 hover:bg-blue-800 text-white font-bold rounded-lg py-2 px-6 shadow-md transition-all duration-300">
           Save Changes
         </button>
-        {/* Should make it responsive*/}
-        <button onClick={() => navigate("/leaderboard")} className="bg-gradient-to-r from-purple-500 to-pink-500 hover:from-puple-600 hover:to-pink-600 text-white font-bold rounded-lg py-2 px-6 shadow-md transition-all duration-300">
+        {/* Responsive Button */}
+        <button onClick={() => navigate("/leaderboard")} className="bg-purple-700 hover:bg-purple-600 text-white font-bold rounded-lg py-2 px-6 shadow-md transition-all duration-300">
           Leaderboard
         </button>
-        
       </div>
 
       <header className="text-center py-20 md:py-8">
@@ -56,4 +55,3 @@ function AdminPage() {
 }
 
 export default AdminPage;
-

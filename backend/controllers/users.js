@@ -1,4 +1,4 @@
-const {users} = require('../database/database.js')
+const users = require('../models/UserModel.js');
 const bcryptjs = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 
@@ -37,9 +37,13 @@ exports.getUsers = (req, res) => {
 exports.createUser = async (req, res) => {
     try {
         const {name,email,password,school,district,phone,classes} = req.body;
-        if (!name || !email || !school || !district || !classes || !phone) return res.status(400).json({"error":"insufficient details"});
+        if (!name || !email || !school || !district || !classes || !phone) return res.status(400).json({
+          success: false,
+          error:"Insufficient details"});
         const fetch = await users.findOne({email});
-        if (fetch) return res.status(401).json({"error":"user already exists with given email"});
+        if (fetch) return res.status(401).json({
+          success: false,
+          error:"user already exists with given email"});
         const hashed = await bcryptjs.hash(password,10);
         const postData = new users({
             name,
@@ -53,10 +57,15 @@ exports.createUser = async (req, res) => {
         await postData.save();
         const disp = postData.toObject();
         delete disp.password;
-        res.status(200).json({"success":"added user",disp});
+        res.status(200).json({
+          success: true,
+          message:"User created sucessfully",disp});
     }
     catch (e) {
-        res.status(500).send("Server error");
+        res.status(500).json({
+          success: false,
+          error: "Server error"
+        });
         console.log(e);
     }
 };
@@ -83,7 +92,7 @@ exports.loginUser = async (req,res) => {
           const token = jwt.sign(
             { email: user.email, role: user.role, name:user.name, district:user.district, phone:user.phone, classes:user.classes }, 
             process.env.KEY,  
-            { expiresIn: '30m' }  
+            { expiresIn: '1h' }  
           );
       
           res.status(200).json({
