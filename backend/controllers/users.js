@@ -2,8 +2,35 @@ const {users} = require('../database/database.js')
 const bcryptjs = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 
+//middlewares
+exports.authenticate = (req, res, next) => {
+    const token = req.header('Authorization')?.replace('Bearer ', '');
+  
+    if (!token) {
+      return res.status(401).json({ error: 'Access denied. No token provided.' });
+    }
+  
+    try {
+      const decoded = jwt.verify(token, process.env.KEY);
+      console.log(decoded); 
+      req.currUser = decoded;  
+      next();
+    } catch (error) {
+      res.status(400).json({ error: 'Invalid token' });
+    }
+};
 
+exports.rolechecker = (roles = []) => {
+    return (req,res,next) => {
+      if (!req.currUser) return res.status(401).json({ error: 'Unauthorized. No user context.' });
+      if (roles.length && !roles.includes(req.currUser.role))  return res.status(403).json({ error: 'No permission' });
+      next();
+    }
+};
+  
+//apis
 exports.getUsers = (req, res) => {
+    console.log(req.currUser);
     res.json({ message: "List of users" });
 };
   
@@ -54,7 +81,7 @@ exports.loginUser = async (req,res) => {
           }
       
           const token = jwt.sign(
-            { email: user.email, role: user.role }, 
+            { email: user.email, role: user.role, name:user.name, district:user.district, phone:user.phone, classes:user.classes }, 
             process.env.KEY,  
             { expiresIn: '30m' }  
           );

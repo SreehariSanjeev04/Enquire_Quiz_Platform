@@ -8,6 +8,6 @@ app.listen(6969,()=>{console.log("ok")});
 
 
 //User routes
-app.get('/auth/users',user.getUsers);
+app.get('/auth/users',user.authenticate,user.getUsers);
 app.post('/auth/users',user.createUser);
 app.post('/auth/login',user.loginUser);
