@@ -8,7 +8,7 @@ const ResponseSchema = new Mongoose.Schema({
     },
     score: {
         type: Number,
-        default: 0
+        default: -1 /* To indicate that admin has not updated the score */
     },
     timestamp: { type: Date, default: Date.now }
 });

@@ -2,7 +2,7 @@ import { createContext } from "react";
 import { useEffect, useState } from "react";
 export const AuthContext = createContext();
 
-const fetchDataFromLocalStorage = () => {
+export const fetchDataFromLocalStorage = () => {
     const token = localStorage.getItem('enquireUserToken');
     if(!token) return null;
 

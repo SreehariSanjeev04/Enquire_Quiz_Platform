@@ -85,7 +85,7 @@ function QuizPage() {
         {user.name ?? "User"}
       </div>
       <header className="text-center py-16 md:py-8">
-        <h2 className="text-white text-3xl font-bold">Quiz Platform</h2>
+        <h2 className="text-white text-3xl font-bold">Enquire Quiz</h2>
       </header>
 
       <div className="flex flex-col items-center">

@@ -1,9 +1,15 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import { toast } from 'sonner'; 
+import { useContext } from 'react';
+import { AuthContext } from '../service/AuthContext';
+import { useNavigate } from 'react-router-dom';
+import { fetchDataFromLocalStorage } from "../service/AuthContext";
 
 const LoginPage = () => {
-  const [user, setUser] = useState({
+  const { user, loading, setUser } = useContext(AuthContext); 
+  const navigate = useNavigate();
+  const [userData, setuserData] = useState({
     email: '',
     password: '',
   });
@@ -12,16 +18,16 @@ const LoginPage = () => {
 
   const handleChange = (e) => {
     const { name, value } = e.target;
-    setUser((prev) => ({ ...prev, [name]: value }));
+    setuserData((prev) => ({ ...prev, [name]: value }));
   };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
 
-    const { email, password } = user;
+    const { email, password } = userData;
 
-    if(!user || !password) {
+    if(!email || !password) {
       toast.error('Please fill out all fields.');
       return;
     }
@@ -38,14 +44,17 @@ const LoginPage = () => {
           password,
         }),
       });
-      console.log(response);
 
       const result = await response.json();
 
       if (response.ok) {
         toast.success('Login successful!');
         localStorage.setItem('enquireUserToken', result.token);
-        window.location.href = '/quiz';
+        setUser(fetchDataFromLocalStorage());
+        console.log(result.user.role);
+        if(result.user.role === "Admin") {
+          navigate('/admin');
+        } else navigate('/quiz');
       } else {
         toast.error(result.error || 'Invalid credentials, please try again.');
       }
@@ -56,6 +65,14 @@ const LoginPage = () => {
       setIsLoading(false);
     }
   };
+
+  useEffect(() => {
+    if(!loading) {
+      if(user) {
+        navigate(user.role === "Admin"? '/admin' : '/quiz');
+      }
+    }
+  }, [])
 
   return (
     <div className="min-h-screen w-full bg-gradient-to-br from-gray-900 via-black to-gray-800 flex justify-center items-center">
@@ -79,7 +96,7 @@ const LoginPage = () => {
               id="email"
               name="email"
               required
-              value={user.email}
+              value={userData.email}
               onChange={handleChange}
               className="bg-gray-800 text-white px-4 py-2 rounded-lg text-sm w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
               placeholder="Enter your Email"
@@ -94,7 +111,7 @@ const LoginPage = () => {
               id="password"
               name="password"
               required
-              value={user.password}
+              value={userData.password}
               onChange={handleChange}
               className="bg-gray-800 text-white px-4 py-2 rounded-lg text-sm w-full focus:outline-none focus:ring-2 focus:ring-blue-500"
               placeholder="Enter your Password"
