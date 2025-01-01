@@ -5,7 +5,7 @@ import QuizPage from './pages/QuizPage'
 import AdminPage from './pages/AdminPage'
 import LoginPage from './pages/LoginPage'
 import LeaderBoard from './pages/LeaderBoard'
-import { Toaster } from 'sonner'
+import { Toaster } from 'sonner' 
 import { ProtectedRoutes } from './service/ProtectedRoutes'
 import AlreadyAttemptedPage from './pages/AlreadyAttemptedPage'
 function App() {
