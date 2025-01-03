@@ -7,7 +7,7 @@ const CorrectionPage = ({ userId, response }) => {
     id: index + 1,
     question,
     answer,
-    isCorrect: null,
+    marks: null,
   }));
 
   const [responses, setResponses] = useState(mappedData);
@@ -18,17 +18,17 @@ const CorrectionPage = ({ userId, response }) => {
       id: index + 1,
       question,
       answer,
-      isCorrect: null,
+      marks: null,
     }));
     setResponses(mappedData);
   }, [response]);
 
-  const handleMark = (id, isCorrect) => {
+  const handleMark = (id, mark) => {
     setResponses((prevResponses) =>
-      prevResponses.map((q) => (q.id === id ? { ...q, isCorrect } : q))
+      prevResponses.map((q) => (q.id === id ? { ...q, marks: mark } : q))
     );
   };
-  const totalMarks = responses.filter((q) => q.isCorrect).length;
+  const totalMarks = responses.reduce((total, q) => total + (q.marks || 0), 0); 
 
   const updateMarks = async () => {
     const token = localStorage.getItem('enquireUserToken');
@@ -77,32 +77,42 @@ const CorrectionPage = ({ userId, response }) => {
             {responses.map((q) => (
               <li
                 key={q.id}
-                className="p-4 bg-gray-700 rounded-md shadow-md flex justify-between items-center"
+                className="p-4 bg-gray-700 rounded-md shadow-md flex flex-col justify-between items-center"
               >
-                <div>
+                <div className="w-full">
                   <p className="font-medium text-white">{q.question}</p>
                   <p className="text-gray-300 text-sm">Answer: {q.answer}</p>
                 </div>
-                <div className="flex gap-2">
+                <div className="w-full flex justify-end gap-2">
                   <button
-                    className={`px-4 font-semibold py-2 rounded-md ${
-                      q.isCorrect
+                    className={`px-2 font-semibold py-1 rounded-md ${
+                      q.marks === 1
                         ? "bg-green-700 text-white"
                         : "bg-gray-300 text-black hover:bg-green-600 hover:text-white"
                     }`}
-                    onClick={() => handleMark(q.id, true)}
+                    onClick={() => handleMark(q.id, 1)}
                   >
                     Correct
                   </button>
                   <button
-                    className={`px-4 py-2 font-semibold rounded-md ${
-                      q.isCorrect === false
+                    className={`px-2 py-1 font-semibold rounded-md ${
+                      q.marks === 0
                         ? "bg-red-700 text-white"
                         : "bg-gray-300 text-black hover:bg-red-600 hover:text-white"
                     }`}
-                    onClick={() => handleMark(q.id, false)}
+                    onClick={() => handleMark(q.id, 0)}
                   >
                     Wrong
+                  </button>
+                  <button
+                    className={`px-2 py-1 font-semibold rounded-md ${
+                      q.marks === 0.5
+                        ? "bg-black text-white"
+                        : "bg-gray-300 text-black hover:bg-gray-900 hover:text-white"
+                    }`}
+                    onClick={() => handleMark(q.id, 0.5)}
+                  >
+                    Partial
                   </button>
                 </div>
               </li>
